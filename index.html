@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>freecurly</title>
+  <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #f5f4f0;
+      font-family: 'Afacad', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════
+       HERO
+    ═══════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      padding: 40px 40px 40px 50px;
+      gap: 20px;
+    }
+
+    .left { display: flex; flex-direction: column; padding-top: 8px; }
+
+    .logo { display: flex; align-items: center; gap: 4px; margin-bottom: 70px; }
+
+    .logo-text {
+      font-family: 'Afacad', sans-serif;
+      font-size: 36px;
+      font-weight: 300;
+      color: #1a1a1a;
+      letter-spacing: -0.5px;
+    }
+
+    .paperclip {
+      width: 60px;
+      height: auto;
+      flex-shrink: 0;
+      transform: rotate(40deg);
+      margin-left: -23px;
+      margin-bottom: 8px;
+    }
+
+    /* ═══════════════════════════
+       SHARED NAV BUTTON
+    ═══════════════════════════ */
+    .nav { display: flex; flex-direction: column; gap: 16px; padding-left: 10px; }
+    .nav-item { display: inline-block; width: fit-content; transform: rotate(20deg); }
+
+    .nav-btn {
+      display: block;
+      width: 180px;
+      padding: 9px 0;
+      text-align: center;
+      border: 1.5px solid #1a1a1a;
+      border-radius: 50px;
+      background: transparent;
+      font-family: 'Afacad', sans-serif;
+      font-size: 21px;
+      color: #1a1a1a;
+      text-decoration: none;
+      transition: background 0.18s, color 0.18s;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .nav-btn:hover { background: #1a1a1a; color: #f5f4f0; }
+
+    /* ═══════════════════════════
+       HERO PHOTOS
+    ═══════════════════════════ */
+    .right { position: relative; min-height: 700px; }
+    .photo { position: absolute; overflow: hidden; box-shadow: 2px 4px 18px rgba(0,0,0,0.13); }
+    .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .p1 { width: 507px; height: 280px; top:   0px; left:  0px; z-index:2; }
+    .p2 { width: 507px; height: 280px; top: 219px; left:120px; z-index:3; }
+    .p3 { width: 254px; height: 254px; top: 138px; left:560px; z-index:2; }
+    .p4 { display: none; }
+    .p5 { width: 300px; height: 280px; top: 360px; left:610px; z-index:3; }
+    .p6 { width: 200px; height: 300px; top:  60px; left:802px; z-index:2; }
+    .p7 { width: 320px; height: 260px; top: 494px; left:840px; z-index:2; }
+
+    /* ═══════════════════════════
+       SHARED SECTION UTILITIES
+    ═══════════════════════════ */
+    .section-page {
+      position: relative;
+      background: #f5f4f0;
+      padding: 40px 60px 100px;
+    }
+
+    .section-btn {
+      position: absolute;
+      top: 40px;
+      left: 44px;
+    }
+    .section-btn .nav-item { transform: rotate(20deg); }
+
+    /* ═══════════════════════════
+       STICKY HOME BUTTON (скрепка)
+    ═══════════════════════════ */
+    .home-clip {
+      position: fixed;
+      top: 32px;
+      right: 40px;
+      z-index: 1000;
+      cursor: pointer;
+      display: none;
+    }
+    .home-clip img {
+      width: 72px;
+      height: auto;
+      transform: rotate(40deg);
+      transition: transform 0.2s, scale 0.2s;
+    }
+    .home-clip:hover img {
+      scale: 1.15;
+    }
+
+    /* ═══════════════════════════
+       CONTACT
+    ═══════════════════════════ */
+    #contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+      padding: 0;
+      min-height: 100vh;
+      position: relative;
+      background: #f5f4f0;
+    }
+
+    .contact-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px;
+    }
+
+    .contact-btn-wrap { position: absolute; top: 40px; left: 40px; }
+    .contact-btn-wrap .nav-item { transform: rotate(20deg); }
+
+    .contact-info {
+      font-size: 22px;
+      font-weight: 300;
+      color: #1a1a1a;
+      line-height: 2;
+      text-align: center;
+    }
+    .contact-info a { color: #1a1a1a; text-decoration: none; }
+    .contact-info a:hover { text-decoration: underline; }
+
+    .contact-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+    }
+    .contact-right img {
+      width: 100%;
+      max-width: 384px;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* ═══════════════════════════
+       ABOUT ME
+    ═══════════════════════════ */
+    .about-caption {
+      font-size: 18px;
+      font-weight: 300;
+      color: #1a1a1a;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    /* Block 1: one horizontal photo centered + caption below */
+    .about-block1 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding-top: 80px;
+      padding-bottom: 40px;
+    }
+    .about-block1 img {
+      width: 403px;
+      height: 266px;
+      object-fit: cover;
+    }
+
+    /* Block 2: 5 vertical photos in a row + caption below */
+    .about-block2 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 30px 0 40px;
+    }
+    .about-block2-photos {
+      display: grid;
+      grid-template-columns: repeat(5, 130px);
+      gap: 12px;
+      justify-content: center;
+    }
+    .about-block2-photos img {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      height: auto;
+      object-fit: cover;
+    }
+
+    /* Block 3: text + 4 vertical in a row */
+    .about-block3 {
+      padding: 30px 0 40px;
+    }
+    .about-block3-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .about-block3-grid img {
+      width: 100%;
+      height: 179px;
+      object-fit: cover;
+    }
+    .about-block3-caption {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .about-block4 {
+      padding: 30px 0 40px;
+      position: relative;
+    }
+    .about-block4-top-text {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .sheregesh-collage {
+      position: relative;
+      height: 540px;
+      margin: 0 auto;
+      max-width: 1100px;
+    }
+    .sc { position: absolute; overflow: hidden; }
+    .sc img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .sc1 { width: 360px; height: 285px; top: 60px;  left: 348px; z-index: 1; }
+    .sc2 { width: 195px; height: 150px; top:  0px;  left: 155px; z-index: 2; }
+    .sc3 { width: 150px; height: 120px; top: 135px; left:  0px;  z-index: 2; }
+    .sc4 { width: 195px; height: 150px; top: 360px; left:  90px; z-index: 2; }
+    .sc5 { width: 150px; height: 120px; top:  15px; left: 800px; z-index: 2; }
+    .sc6 { width: 270px; height: 210px; top: 195px; left: 700px; z-index: 2; }
+    .sc7 { width: 135px; height: 120px; top: 420px; left: 760px; z-index: 2; }
+
+    .about-block4-bottom-text {
+      margin-top: 16px;
+    }
+
+    /* Block 5: 3 horizontal photos centered, each with caption below */
+    .about-block5 {
+      padding: 30px 0 80px;
+    }
+    .about-block5-photos {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+    .about-photo-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 424px;
+    }
+    .about-photo-item img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+    }
+    .about-photo-item .photo-caption {
+      font-size: 15px;
+      font-weight: 300;
+      color: #1a1a1a;
+      text-align: center;
+      line-height: 1.6;
+    }
+    .about-photo-with-year {
+      position: relative;
+      width: 100%;
+    }
+    .about-photo-with-year img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+    .year-label {
+      position: absolute;
+      right: -44px;
+      bottom: 0;
+      font-size: 13px;
+      font-weight: 300;
+      color: #888;
+    }
+
+    /* ═══════════════════════════
+       SCENE SECTION
+    ═══════════════════════════ */
+    .scene-section { padding: 60px 0 80px; }
+    .scene-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 0 60px;
+    }
+    .scene-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    /* ═══════════════════════════
+       EVENT SECTION
+    ═══════════════════════════ */
+    .event-section {
+      padding: 60px 0 80px;
+    }
+    .event-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 0 60px;
+    }
+    .event-row {
+      display: grid;
+      gap: 12px;
+      align-items: start;
+    }
+
+    /* ═══════════════════════════
+       PORTRAIT SECTION
+    ═══════════════════════════ */
+    .portrait-section {
+      padding: 60px 0 80px;
+    }
+
+    .portrait-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 0 60px;
+    }
+
+    .portrait-row {
+      display: grid;
+      gap: 12px;
+      align-items: start;
+    }
+
+    /*
+      Вертикальные (V) имеют соотношение 2:3 → ширина W
+      Горизонтальные (H) имеют соотношение 3:2 → ширина 1.5W
+      Чтобы все V были одинаковыми и все H одинаковыми
+      нужно задать одно и то же соотношение колонок в каждом ряду.
+
+      Общая ширина = 4V + 2H = 4×1 + 2×1.5 = 7 единиц
+      Каждый ряд содержит 4 вертикальных и 2 горизонтальных
+    */
+    .pr-vvhvvh { grid-template-columns: 1fr 1fr 1.5fr 1fr 1fr 1.5fr; }
+    .pr-hvvhvv { grid-template-columns: 1.5fr 1fr 1fr 1.5fr 1fr 1fr; }
+    .pr-vhvvhv { grid-template-columns: 1fr 1.5fr 1fr 1fr 1.5fr 1fr; }
+    .pr-vvvhvv { grid-template-columns: 1fr 1fr 1fr 1.5fr 1fr 1fr; }
+    .pr-hvvvvh { grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1.5fr; }
+    .pr-vhvvvh { grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr 1.5fr; }
+    .pr-vvvh { grid-template-columns: 1fr 1fr 1fr 1.5fr 1fr 1fr; }
+
+    /* ═══════════════════════════
+       COUPLE SECTION
+    ═══════════════════════════ */
+    .couple-section {
+      padding: 60px 0 80px;
+    }
+
+    .couple-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 0 60px;
+    }
+
+    .couple-row {
+      display: grid;
+      gap: 12px;
+      align-items: start;
+    }
+
+    /* Row 1: V H V H V */
+    .couple-row-1 {
+      grid-template-columns: 1fr 1.5fr 1fr 1.5fr 1fr;
+    }
+
+    /* Row 2: V H H V V */
+    .couple-row-2 {
+      grid-template-columns: 1fr 1.5fr 1.5fr 1fr 1fr;
+    }
+
+    .cp {
+      overflow: hidden;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      width: 100%;
+      background: #e8e8e8;
+    }
+    .cp:hover { opacity: 0.85; }
+    .cp img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* вертикальное соотношение 2731:4096 ≈ 0.667 → height = width * 1.5 */
+    .cp.vertical  { aspect-ratio: 2731 / 4096; }
+    /* горизонтальное соотношение 4096:2731 ≈ 1.5 → height = width * 0.667 */
+    .cp.horizontal { aspect-ratio: 4096 / 2731; }
+
+    /* ═══════════════════════════
+       LIGHTBOX
+    ═══════════════════════════ */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.5);
+    }
+
+    /* ═══════════════════════════
+       FILM WORKS
+    ═══════════════════════════ */
+    .film-intro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      padding-top: 120px;
+      padding-bottom: 80px;
+    }
+    .film-intro img { width: 756px; height: 501px; object-fit: cover; display: block; }
+
+    .film-grid-2x2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      padding: 60px 0 60px;
+    }
+    .film-grid-2x2 img { width: 100%; height: 466px; object-fit: cover; display: block; }
+
+    .film-grid-4v {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      padding: 60px 0 60px;
+    }
+    .film-grid-4v img { width: 100%; height: 563px; object-fit: cover; display: block; }
+
+    /* ═══════════════════════════
+       MY PHOTOS — FOLDERS
+    ═══════════════════════════ */
+    .folders-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px 120px;
+      padding: 120px 100px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .folder {
+      position: relative;
+      width: 300px;
+      height: 380px;
+      background: #D9D9D9;
+    }
+
+    .folder-clip {
+      position: absolute;
+      top: -10px;
+      left: -24px;
+      width: 73px;
+      height: auto;
+      transform: rotate(35deg);
+      z-index: 10;
+    }
+
+    /* стопка фото — хаотично, почти на весь прямоугольник */
+    .stack {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .stack-img {
+      position: absolute;
+      width: 260px;
+      height: 340px;
+      object-fit: cover;
+      display: block;
+      top: 50%;
+      left: 50%;
+    }
+
+    /* каждое фото — свой хаотичный угол и смещение */
+    .s4 { transform: translate(-50%, -50%) rotate(-14deg) translate(-8px,  6px); z-index: 1; }
+    .s3 { transform: translate(-50%, -50%) rotate(  9deg) translate( 6px, -4px); z-index: 2; }
+    .s2 { transform: translate(-50%, -50%) rotate(-5deg)  translate(-4px,  8px); z-index: 3; }
+    .s1 { transform: translate(-50%, -50%) rotate(  3deg) translate( 2px, -2px); z-index: 4; }
+
+    .folder-label {
+      font-family: 'Afacad', sans-serif;
+      font-size: 20px;
+      font-weight: 300;
+      color: #1a1a1a;
+      text-decoration: none;
+      margin-right: 10px;
+      transition: opacity 0.2s;
+    }
+
+    .folder-link {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+    }
+    .folder-link:hover {
+      transform: scale(1.06);
+    }
+
+    .photos-category-placeholder {
+      padding: 80px 60px 40px;
+      min-height: 200px;
+    }
+    .photos-category-placeholder h3 {
+      font-size: 36px;
+      font-weight: 300;
+      color: #1a1a1a;
+    }
+
+    /* ═══════════════════════════
+       MOBILE RESPONSIVE
+    ═══════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* HERO */
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 30px 24px 0;
+        min-height: 100vh;
+        gap: 0;
+        position: relative;
+      }
+
+      .logo { margin-bottom: 36px; }
+      .logo-text { font-size: 30px; }
+      .paperclip {
+        width: 44px;
+        transform: rotate(40deg);
+        margin-left: -16px;
+        margin-bottom: 6px;
+      }
+
+      /* nav — LEFT aligned */
+      .nav { padding-left: 0; gap: 18px; }
+      .nav-item { transform: rotate(20deg); }
+      .nav-item:nth-child(1),
+      .nav-item:nth-child(2),
+      .nav-item:nth-child(3),
+      .nav-item:nth-child(4) { margin-left: 0; }
+      .nav-btn { width: 210px; font-size: 24px; padding: 11px 0; }
+
+      /* hero photos: 1front and 7front bottom right */
+      .hero { position: relative !important; }
+      .right {
+        display: block;
+        position: absolute;
+        bottom: 40px;
+        right: 0;
+        width: 230px;
+        height: 230px;
+        min-height: unset;
+        pointer-events: none;
+      }
+      .p1 { position: absolute; width: 165px; height: 115px; top: 0; left: 0; z-index: 3; }
+      .p2, .p3, .p4, .p5, .p6 { display: none; }
+      .p7 { position: absolute; width: 155px; height: 145px; bottom: 0; right: 0; z-index: 2; display: block; }
+
+      /* SECTION PAGES */
+      .section-page { padding: 90px 16px 80px; }
+      .section-btn { top: 36px; left: 20px; }
+
+      /* CONTACT */
+      #contact {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+      }
+      .contact-left { padding: 90px 24px 20px; }
+      .contact-right { padding: 0 40px 40px; }
+      .contact-right img { max-width: 50%; margin: 0 auto; display: block; }
+      .contact-info { font-size: 18px; }
+      .contact-btn-wrap { top: 36px; left: 20px; }
+
+      /* ABOUT ME */
+      .about-block1 { padding-top: 70px; }
+      .about-block1 img { width: 100%; height: auto; aspect-ratio: 3/2; }
+      .about-block2-photos { grid-template-columns: repeat(3, 1fr); }
+      .about-block3-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-block3-grid img { height: 180px; }
+      .sheregesh-collage { display: none; }
+      .sheregesh-mobile {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .sheregesh-mobile img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+      .sheregesh-mobile img:nth-child(4) { display: none; }
+      .about-photo-item { width: 100%; }
+      .about-photo-item img { height: auto; aspect-ratio: 3/2; }
+      .about-photo-with-year img { height: auto; aspect-ratio: 3/2; }
+
+      /* MY PHOTOS FOLDERS — 2x2, clip overlapping stack slightly */
+      .folders-grid {
+        grid-template-columns: 1fr 1fr;
+        padding: 100px 20px 60px;
+        gap: 50px 20px;
+      }
+      .folder { width: 100%; height: auto; aspect-ratio: 3/4; overflow: visible; }
+      .folder-clip {
+        top: -14px;
+        left: -10px;
+        width: 50px;
+        z-index: 20;
+      }
+      .stack-img { width: 88%; height: 88%; }
+
+      /* PORTRAIT / EVENT / SCENE — 3 columns */
+      .portrait-row,
+      .event-row,
+      .scene-row {
+        grid-template-columns: 1fr 1fr 1fr !important;
+      }
+      .portrait-grid,
+      .event-grid,
+      .scene-grid { padding: 0 12px; gap: 6px; }
+      .portrait-row,
+      .event-row,
+      .scene-row { gap: 6px; }
+
+      /* COUPLE — 2 columns */
+      .couple-row-1,
+      .couple-row-2 { grid-template-columns: 1fr 1fr !important; }
+      .couple-grid { padding: 0 12px; gap: 6px; }
+      .couple-row { gap: 6px; }
+
+      /* FILM */
+      .film-intro { padding-top: 70px; }
+      .film-intro img { width: 100%; height: auto; aspect-ratio: 3/2; }
+      .film-grid-2x2 { grid-template-columns: 1fr; padding: 20px 12px; gap: 6px; }
+      .film-grid-2x2 img { height: auto; aspect-ratio: 3/2; }
+      .film-grid-4v { grid-template-columns: 1fr 1fr; padding: 20px 12px; gap: 6px; }
+      .film-grid-4v img { height: auto; aspect-ratio: 2/3; }
+
+      /* HOME CLIP */
+      .home-clip { top: 16px; right: 16px; }
+      .home-clip img { width: 56px; }
+
+      .about-caption { font-size: 15px; }
+    }
+
+    /* Sheregesh mobile grid hidden by default */
+    .sheregesh-mobile { display: none; }
+
+
+
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════ HERO ══════════════ -->
+  <div class="hero">
+    <div class="left">
+      <div class="logo">
+        <span class="logo-text">freecurly</span>
+        <img class="paperclip" src="paperclip.png" alt="paperclip" />
+      </div>
+      <nav class="nav">
+        <div class="nav-item"><a class="nav-btn" href="#photos">my photos</a></div>
+        <div class="nav-item"><a class="nav-btn" href="#contact">contact</a></div>
+        <div class="nav-item"><a class="nav-btn" href="#about">about me</a></div>
+        <div class="nav-item"><a class="nav-btn" href="#film">film works</a></div>
+      </nav>
+    </div>
+    <div class="right">
+      <div class="photo p1"><img src="1front.jpg" alt=""></div>
+      <div class="photo p2"><img src="2front.jpg" alt=""></div>
+      <div class="photo p3"><img src="3front.jpg" alt=""></div>
+      <div class="photo p4"><img src="4front.jpg" alt=""></div>
+      <div class="photo p5"><img src="5front.jpg" alt=""></div>
+      <div class="photo p6"><img src="6front.jpg" alt=""></div>
+      <div class="photo p7"><img src="7front.jpg" alt=""></div>
+    </div>
+  </div>
+
+  <!-- ══════════════ MY PHOTOS ══════════════ -->
+  <!-- ══════════════ MY PHOTOS ══════════════ -->
+  <div id="photos" class="section-page">
+
+    <div class="section-btn">
+      <div class="nav-item"><a class="nav-btn" href="#photos">my photos</a></div>
+    </div>
+
+    <div class="folders-grid">
+
+      <a class="folder-link" href="#portrait">
+        <div class="folder">
+          <img class="folder-clip" src="paperclip.png" alt="">
+          <div class="stack">
+            <img class="stack-img s4" src="portrait4.jpg" alt="">
+            <img class="stack-img s3" src="portrait3.jpg" alt="">
+            <img class="stack-img s2" src="portrait2.jpg" alt="">
+            <img class="stack-img s1" src="portrait1.jpg" alt="">
+          </div>
+        </div>
+        <span class="folder-label">portrait</span>
+      </a>
+
+      <a class="folder-link" href="#scene">
+        <div class="folder">
+          <img class="folder-clip" src="paperclip.png" alt="">
+          <div class="stack">
+            <img class="stack-img s4" src="scene4.jpg" alt="">
+            <img class="stack-img s3" src="scene3.jpg" alt="">
+            <img class="stack-img s2" src="scene2.jpg" alt="">
+            <img class="stack-img s1" src="scene1.jpg" alt="">
+          </div>
+        </div>
+        <span class="folder-label">scene</span>
+      </a>
+
+      <a class="folder-link" href="#event">
+        <div class="folder">
+          <img class="folder-clip" src="paperclip.png" alt="">
+          <div class="stack">
+            <img class="stack-img s4" src="event4.jpg" alt="">
+            <img class="stack-img s3" src="event3.jpg" alt="">
+            <img class="stack-img s2" src="event2.jpg" alt="">
+            <img class="stack-img s1" src="event1.jpg" alt="">
+          </div>
+        </div>
+        <span class="folder-label">event</span>
+      </a>
+
+      <a class="folder-link" href="#couple">
+        <div class="folder">
+          <img class="folder-clip" src="paperclip.png" alt="">
+          <div class="stack">
+            <img class="stack-img s4" src="couple4.jpg" alt="">
+            <img class="stack-img s3" src="couple3.jpg" alt="">
+            <img class="stack-img s2" src="couple2.jpg" alt="">
+            <img class="stack-img s1" src="couple1.jpg" alt="">
+          </div>
+        </div>
+        <span class="folder-label">couple</span>
+      </a>
+
+    </div>
+
+    <div id="portrait" class="portrait-section">
+      <div class="portrait-grid">
+
+        <!-- Row 1: V V H V V H -->
+        <div class="portrait-row pr-vvhvvh">
+          <div class="cp vertical"   onclick="openLight('portraitt1.jpg')"><img src="portraitt1.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt2.jpg')"><img src="portraitt2.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('portraitt3.jpg')"><img src="portraitt3.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt4.jpg')"><img src="portraitt4.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt5.jpg')"><img src="portraitt5.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('portraitt6.jpg')"><img src="portraitt6.jpg" alt=""></div>
+        </div>
+
+        <!-- Row 2: H V V H V V -->
+        <div class="portrait-row pr-hvvhvv">
+          <div class="cp horizontal" onclick="openLight('portraitt7.jpg')"><img src="portraitt7.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt8.jpg')"><img src="portraitt8.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt9.jpg')"><img src="portraitt9.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('portraitt10.jpg')"><img src="portraitt10.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt11.jpg')"><img src="portraitt11.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt12.jpg')"><img src="portraitt12.jpg" alt=""></div>
+        </div>
+
+        <!-- Row 3: V H V V H V -->
+        <div class="portrait-row pr-vhvvhv">
+          <div class="cp vertical"   onclick="openLight('portraitt13.jpg')"><img src="portraitt13.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('portraitt14.jpg')"><img src="portraitt14.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt15.jpg')"><img src="portraitt15.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt16.jpg')"><img src="portraitt16.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('portraitt17.jpg')"><img src="portraitt17.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt18.jpg')"><img src="portraitt18.jpg" alt=""></div>
+        </div>
+
+        <!-- Row 4: V V V H V V -->
+        <div class="portrait-row pr-vvvhvv">
+          <div class="cp vertical"   onclick="openLight('portraitt19.jpg')"><img src="portraitt19.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt20.jpg')"><img src="portraitt20.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt21.jpg')"><img src="portraitt21.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('portraitt22.jpg')"><img src="portraitt22.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt23.jpg')"><img src="portraitt23.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt24.jpg')"><img src="portraitt24.jpg" alt=""></div>
+        </div>
+
+        <!-- Row 5: H V V V V H -->
+        <div class="portrait-row pr-hvvvvh">
+          <div class="cp horizontal" onclick="openLight('portraitt25.jpg')"><img src="portraitt25.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt26.jpg')"><img src="portraitt26.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt27.jpg')"><img src="portraitt27.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt28.jpg')"><img src="portraitt28.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt29.jpg')"><img src="portraitt29.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('portraitt30.jpg')"><img src="portraitt30.jpg" alt=""></div>
+        </div>
+
+        <!-- Row 6: V H V V V H -->
+        <div class="portrait-row pr-vhvvvh">
+          <div class="cp vertical"   onclick="openLight('portraitt31.jpg')"><img src="portraitt31.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('portraitt32.jpg')"><img src="portraitt32.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt33.jpg')"><img src="portraitt33.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt34.jpg')"><img src="portraitt34.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt35.jpg')"><img src="portraitt35.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('portraitt36.jpg')"><img src="portraitt36.jpg" alt=""></div>
+        </div>
+
+        <!-- Row 7: V V V H + 2 empty -->
+        <div class="portrait-row pr-vvvh">
+          <div class="cp vertical"   onclick="openLight('portraitt37.jpg')"><img src="portraitt37.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt38.jpg')"><img src="portraitt38.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('portraitt39.jpg')"><img src="portraitt39.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('portraitt40.jpg')"><img src="portraitt40.jpg" alt=""></div>
+          <div class="cp vertical" style="visibility:hidden"></div>
+          <div class="cp vertical" style="visibility:hidden"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="scene" class="scene-section">
+      <div class="scene-grid">
+
+        <!-- Row 1 -->
+        <div class="scene-row">
+          <div class="cp horizontal" onclick="openLight('scenee1.jpg')"><img src="scenee1.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee2.jpg')"><img src="scenee2.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee3.jpg')"><img src="scenee3.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee4.jpg')"><img src="scenee4.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee5.jpg')"><img src="scenee5.jpg" alt=""></div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="scene-row">
+          <div class="cp horizontal" onclick="openLight('scenee6.jpg')"><img src="scenee6.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee7.jpg')"><img src="scenee7.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee8.jpg')"><img src="scenee8.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee9.jpg')"><img src="scenee9.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee10.jpg')"><img src="scenee10.jpg" alt=""></div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="scene-row">
+          <div class="cp horizontal" onclick="openLight('scenee11.jpg')"><img src="scenee11.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee12.jpg')"><img src="scenee12.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee13.jpg')"><img src="scenee13.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee14.jpg')"><img src="scenee14.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee15.jpg')"><img src="scenee15.jpg" alt=""></div>
+        </div>
+
+        <!-- Row 4 -->
+        <div class="scene-row">
+          <div class="cp horizontal" onclick="openLight('scenee16.jpg')"><img src="scenee16.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee17.jpg')"><img src="scenee17.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee18.jpg')"><img src="scenee18.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee19.jpg')"><img src="scenee19.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee20.jpg')"><img src="scenee20.jpg" alt=""></div>
+        </div>
+
+        <!-- Row 5 -->
+        <div class="scene-row">
+          <div class="cp horizontal" onclick="openLight('scenee21.jpg')"><img src="scenee21.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee22.jpg')"><img src="scenee22.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee23.jpg')"><img src="scenee23.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee24.jpg')"><img src="scenee24.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee25.jpg')"><img src="scenee25.jpg" alt=""></div>
+        </div>
+
+        <!-- Row 6 -->
+        <div class="scene-row">
+          <div class="cp horizontal" onclick="openLight('scenee26.jpg')"><img src="scenee26.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee27.jpg')"><img src="scenee27.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee28.jpg')"><img src="scenee28.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee29.jpg')"><img src="scenee29.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('scenee30.jpg')"><img src="scenee30.jpg" alt=""></div>
+        </div>
+
+      </div>
+    </div>
+    <div id="event" class="event-section">
+      <div class="event-grid">
+
+        <!-- Row 1: V V H V V -->
+        <div class="event-row" style="grid-template-columns: 1fr 1fr 1.5fr 1fr 1fr">
+          <div class="cp vertical"   onclick="openLight('eventt1.jpg')"><img src="eventt1.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('eventt2.jpg')"><img src="eventt2.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('eventt3.jpg')"><img src="eventt3.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('eventt4.jpg')"><img src="eventt4.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('eventt5.jpg')"><img src="eventt5.jpg" alt=""></div>
+        </div>
+
+        <!-- Row 2: H V H V V -->
+        <div class="event-row" style="grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr">
+          <div class="cp horizontal" onclick="openLight('eventt6.jpg')"><img src="eventt6.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('eventt7.jpg')"><img src="eventt7.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('eventt8.jpg')"><img src="eventt8.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('eventt9.jpg')"><img src="eventt9.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('eventt10.jpg')"><img src="eventt10.jpg" alt=""></div>
+        </div>
+
+        <!-- Row 3: V H H V V -->
+        <div class="event-row" style="grid-template-columns: 1fr 1.5fr 1.5fr 1fr 1fr">
+          <div class="cp vertical"   onclick="openLight('eventt11.jpg')"><img src="eventt11.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('eventt12.jpg')"><img src="eventt12.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('eventt13.jpg')"><img src="eventt13.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('eventt14.jpg')"><img src="eventt14.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('eventt15.jpg')"><img src="eventt15.jpg" alt=""></div>
+        </div>
+
+        <!-- Row 4: H H V H -->
+        <div class="event-row" style="grid-template-columns: 1.5fr 1.5fr 1fr 1.5fr">
+          <div class="cp horizontal" onclick="openLight('eventt16.jpg')"><img src="eventt16.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('eventt17.jpg')"><img src="eventt17.jpg" alt=""></div>
+          <div class="cp vertical"   onclick="openLight('eventt18.jpg')"><img src="eventt18.jpg" alt=""></div>
+          <div class="cp horizontal" onclick="openLight('eventt19.jpg')"><img src="eventt19.jpg" alt=""></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- COUPLE -->
+    <div id="couple" class="couple-section">
+      <div class="couple-grid">
+        <!-- Row 1: V H V H V -->
+        <div class="couple-row couple-row-1">
+          <div class="cp vertical"   onclick="openLight('couplet1.jpg')"> <img src="couplet1.jpg"  alt=""></div>
+          <div class="cp horizontal" onclick="openLight('couplet2.jpg')"> <img src="couplet2.jpg"  alt=""></div>
+          <div class="cp vertical"   onclick="openLight('couplet3.jpg')"> <img src="couplet3.jpg"  alt=""></div>
+          <div class="cp horizontal" onclick="openLight('couplet4.jpg')"> <img src="couplet4.jpg"  alt=""></div>
+          <div class="cp vertical"   onclick="openLight('couplet5.jpg')"> <img src="couplet5.jpg"  alt=""></div>
+        </div>
+        <!-- Row 2: V H H V V -->
+        <div class="couple-row couple-row-2">
+          <div class="cp vertical"   onclick="openLight('couplet6.jpg')"> <img src="couplet6.jpg"  alt=""></div>
+          <div class="cp horizontal" onclick="openLight('couplet7.jpg')"> <img src="couplet7.jpg"  alt=""></div>
+          <div class="cp horizontal" onclick="openLight('couplet8.jpg')"> <img src="couplet8.jpg"  alt=""></div>
+          <div class="cp vertical"   onclick="openLight('couplet9.jpg')"> <img src="couplet9.jpg"  alt=""></div>
+          <div class="cp vertical"   onclick="openLight('couplet10.jpg')"><img src="couplet10.jpg" alt=""></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" onclick="closeLight()">
+      <img id="lightbox-img" src="" alt="">
+    </div>
+  </div>
+
+  <!-- ══════════════ CONTACT ══════════════ -->
+  <section id="contact">
+    <div class="contact-btn-wrap">
+      <div class="nav-item"><a class="nav-btn" href="#contact">contact</a></div>
+    </div>
+    <div class="contact-left">
+      <div class="contact-info">
+        <p>instagram <a href="https://www.instagram.com/freecurlyy/?__d=1%2F%2F" target="_blank">@freecurlyy</a></p>
+        <p>freecurly98&#64;gmail.com</p>
+        <p>Los Angeles, USA</p>
+      </div>
+    </div>
+    <div class="contact-right">
+      <img src="contactme.jpg" alt="contact photo">
+    </div>
+  </section>
+
+  <!-- ══════════════ ABOUT ME ══════════════ -->
+  <div id="about" class="section-page">
+
+    <div class="section-btn">
+      <div class="nav-item"><a class="nav-btn" href="#about">about me</a></div>
+    </div>
+
+    <!-- Block 1: one big horizontal photo + text -->
+    <div class="about-block1">
+      <img src="aboutme1.jpg" alt="Novosibirsk">
+      <p class="about-caption">I was born and raised in Novosibirsk, a city in Siberia, Russia.</p>
+    </div>
+
+    <!-- Block 2: 5 vertical photos + text -->
+    <div class="about-block2">
+      <div class="about-block2-photos">
+        <img src="aboutme2.jpg" alt="">
+        <img src="aboutme3.jpg" alt="">
+        <img src="aboutme4.jpg" alt="">
+        <img src="aboutme5.jpg" alt="">
+        <img src="aboutme6.jpg" alt="">
+      </div>
+      <p class="about-caption">I started photographing back in school — my friends, my family, everyone around me.</p>
+    </div>
+
+    <!-- Block 3: text + 4 horizontal 2+2 -->
+    <div class="about-block3">
+      <p class="about-caption about-block3-caption">I grew up attending a creative studio where we explored many forms of art and making things by hand.<br>That experience stayed with me — I still enjoy sewing, drawing, cooking, and creating things myself.</p>
+      <div class="about-block3-grid">
+        <img src="aboutme7.jpg" alt="">
+        <img src="aboutme8.jpg" alt="">
+        <img src="aboutme9.jpg" alt="">
+        <img src="aboutme10.jpg" alt="">
+      </div>
+    </div>
+
+    <!-- Block 4: Sheregesh collage -->
+    <div class="about-block4">
+      <p class="about-caption about-block4-top-text">Every year, my family traveled to the village Sheregesh to visit my grandparents.</p>
+      <div class="sheregesh-collage">
+        <div class="sc sc1"><img src="aboutme11.jpg" alt="Sheregesh village"></div>
+        <div class="sc sc2"><img src="aboutme12.jpg" alt="forest"></div>
+        <div class="sc sc3"><img src="aboutme13.jpg" alt="girl"></div>
+        <div class="sc sc4"><img src="aboutme14.jpg" alt="wood"></div>
+        <div class="sc sc5"><img src="aboutme15.jpg" alt="hand seeds"></div>
+        <div class="sc sc6"><img src="aboutme16.jpg" alt="grandma"></div>
+        <div class="sc sc7"><img src="aboutme17.jpg" alt="flowers"></div>
+      </div>
+      <!-- mobile version -->
+      <div class="sheregesh-mobile">
+        <img src="aboutme11.jpg" alt=""><img src="aboutme12.jpg" alt="">
+        <img src="aboutme13.jpg" alt=""><img src="aboutme14.jpg" alt="">
+        <img src="aboutme15.jpg" alt=""><img src="aboutme16.jpg" alt="">
+        <img src="aboutme17.jpg" alt="">
+      </div>
+      <p class="about-caption about-block4-bottom-text">Those moments shaped my love for nature and taught me to see beauty in things exactly as they are.</p>
+    </div>
+
+    <!-- Block 5: 3 horizontal photos, each with caption -->
+    <div class="about-block5">
+      <div class="about-block5-photos">
+
+        <div class="about-photo-item">
+          <img src="aboutme18.jpg" alt="Saint Petersburg">
+          <p class="photo-caption">I moved to Saint Petersburg to study Advertising and Design<br>and received my Bachelor's degree in 2023.</p>
+        </div>
+
+        <div class="about-photo-item">
+          <img src="aboutme19.jpg" alt="LA">
+          <p class="photo-caption">moved to LA in 2024</p>
+        </div>
+
+        <div class="about-photo-item">
+          <div class="about-photo-with-year">
+            <img src="aboutme20.jpg" alt="photography">
+            <span class="year-label">2011</span>
+          </div>
+          <p class="photo-caption">Photography has been part of my life for many years. Even though it has never been my main profession,<br>it has always been something I deeply enjoy and naturally return to.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ FILM WORKS ══════════════ -->
+  <div id="film" class="section-page">
+
+    <div class="section-btn">
+      <div class="nav-item"><a class="nav-btn" href="#film">film works</a></div>
+    </div>
+
+    <div class="film-intro">
+      <img src="film1.jpg" alt="film 1">
+      <img src="film2.jpg" alt="film 2">
+    </div>
+
+    <div class="film-grid-2x2">
+      <img src="film3.jpg" alt="film 3">
+      <img src="film4.jpg" alt="film 4">
+      <img src="film5.jpg" alt="film 5">
+      <img src="film6.jpg" alt="film 6">
+    </div>
+
+    <div class="film-grid-4v">
+      <img src="film7.jpg"  alt="film 7">
+      <img src="film8.jpg"  alt="film 8">
+      <img src="film9.jpg"  alt="film 9">
+      <img src="film10.jpg" alt="film 10">
+    </div>
+
+    <div class="film-grid-2x2">
+      <img src="film11.jpg" alt="film 11">
+      <img src="film12.jpg" alt="film 12">
+      <img src="film13.jpg" alt="film 13">
+      <img src="film14.jpg" alt="film 14">
+    </div>
+  </div>
+
+  <!-- ══ STICKY HOME BUTTON ══ -->
+  <a class="home-clip" href="#" id="homeBtn">
+    <img src="paperclip.png" alt="home">
+  </a>
+
+  <script>
+    const homeBtn = document.getElementById('homeBtn');
+    const hero = document.querySelector('.hero');
+
+    function updateHomeBtn() {
+      const heroBottom = hero.getBoundingClientRect().bottom;
+      homeBtn.style.display = heroBottom < 0 ? 'block' : 'none';
+    }
+
+    window.addEventListener('scroll', updateHomeBtn);
+    updateHomeBtn();
+
+    function openLight(src) {
+      const lb = document.getElementById('lightbox');
+      document.getElementById('lightbox-img').src = src;
+      lb.classList.add('active');
+    }
+
+    function closeLight() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLight();
+    });
+  </script>
+
+</body>
+</html>
